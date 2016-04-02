@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
-def home_page():
-    pass
-
+#  make sure you install lists in settings INSTALLED_APPS
+def home_page(request):
+    return render(request, 'home.html')
 # Create your views here.
