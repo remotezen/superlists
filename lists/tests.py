@@ -5,6 +5,7 @@ from django.http import HttpRequest
 from django.template.loader import render_to_string
 
 from lists.views import home_page
+from lists.models import Item
 
 # First test no even a url in home_page = None
 
@@ -22,3 +23,21 @@ class HomePageTest(TestCase):
         self.assertTrue(response.content.startswith(b'<html>'))
         self.assertIn(b'<title>To-Do lists</title>', response.content)
         self.assertTrue(response.content.strip().endswith(b'</html>'))
+
+class ItemModelTest(TestCase):
+    def test_saving_retrieving_items(self):
+        first_item = Item()
+        first_item.text = 'The first(ever) list item'
+        first_item.save()
+
+        second_item = Item()
+        second_item.text = 'Item the second'
+        second_items.save()
+
+        saved_items = Item.objects.all()
+        self.assertEqual(save_items.count, 2)
+        first_saved_item = saved_items[0]
+        second_saved_item = saved_items[1]
+        self.assertEqual(first_saved_item.text, 'The first (ever) list item')
+        self.assertEqual(second_saved_item.text, 'Item the second')
+
