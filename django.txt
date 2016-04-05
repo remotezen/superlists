@@ -1,0 +1,75 @@
+
+####get the virtual environment
++++++++++++
+virtualenv --no-site-package [virtualenv]
+source $VENV/bin/activate
+django-admin startproject [web] .
+change timezone settings.py
+
+###Migrate Databases
+from $VENV python manage.py migrate
+python manage.py runserver
+python manage.py startapp blog 
+###Tell django app the new app in settings.py INSTALLED_APPS()
+####Create a blog model in blog models.py
+
+##after creating your model make migrations
+python manage.py makemigrations blog
+###Run the migration
+  python manage.py migrate blog
+
+###Lets use django admin to edit create posts  
+  blog/admin.py
+  from .models import Post
+  admin.site.register(Post)
+
+##### Create Super User
+  python manage.py createsuperuser
+#####Configure Urls
+  mysite urls.py
+  urlpatterns = [
+    url(r'^admin/', admin.site.urls),
+    url(r'', include('blog.urls')),
++++++Create this file
+|
+V
+####Blog urls.py
+  urlpatterns = [
+    url(r'^$', views.post_list, name='post_list'),
+]
+
+
+
+
+######Now into blog views
+  def post_list(request):
+    return render(request, 'blog/post_list.html')
+
+### Better django terminal
+jupyter  notebook --profile=mysite
+
+  INSTALLED_APPS = (
+  'django_extensions'
+ )
+  python manage.py shell_plus
+  python manage.py shell_plus --notebook
+
+###Some basic commend shell database commands
+  Post.objects.all()
+
+
+  
+
+
+####FORMs
+  Every app must have a form file if there is going to be
+  a from
+from django import forms
+from .models import Post
+  class PostForm(forms.ModelForm):
+      class Meta:
+          model = Post
+          fields = ('title', 'text',)
+
+####Routes
+python manage.py show_urls

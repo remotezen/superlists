@@ -30,7 +30,7 @@ class NewVisitorTest(LiveServerTestCase):
 
     def test_can_start_a_list_and_retrieve_it_later(self):
         # opens browser to check out home page"""
-        self.browser.get(self.live_server_url)
+        response = self.browser.get(self.live_server_url)
         self.browser.implicitly_wait(3)
         # notices title To-Do in header and title
         self.assertIn('To-Do', self.browser.title)
@@ -62,6 +62,9 @@ class NewVisitorTest(LiveServerTestCase):
         page_text = self.browser.find_element_by_tag_name('body').text
         self.assertNotIn('Buy peacock feathers', page_text)
         self.assertIn('Buy milk', page_text)
+        self.assertEqual(response.satus_code, 302)
+        self.assertEqual(response['location'], '/lists/the-only-list-in-the-world/')
+
 
 
         self.fail('Finish the test!')
