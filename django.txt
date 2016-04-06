@@ -58,9 +58,6 @@ jupyter  notebook --profile=mysite
   Post.objects.all()
 
 
-  
-
-
 ####FORMs
   Every app must have a form file if there is going to be
   a from
