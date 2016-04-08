@@ -1,10 +1,8 @@
-from django.contrib.staticfiles.testing import StaticLiveServerTestCase
+from .base import FunctionalTest
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 # from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
-from django.http import HttpRequest
-from lists.views import home_page
-from django.template.loader import render_to_string
+from unittest import skip
 # ++++selenium-server -p 4444
 """
     To run the functional tests
@@ -15,23 +13,13 @@ from django.template.loader import render_to_string
  """
 
 
-class NewVisitorTest(StaticLiveServerTestCase):
+class NewVisitorTest(FunctionalTest):
 
     def setUp(self):
         self.browser = webdriver.Firefox()
 
     def tearDown(self):
         self.browser.close()
-
-    def test_layout_and_styling(self):
-        self.browser.get(self.live_server_url)
-        self.browser.set_window_size(1024,768)
-        inputbox = self.browser.find_element_by_id('id_new_item')
-        self.assertAlmostEqual(
-            inputbox.location['x'] + inputbox.size['width'] / 2,
-            512,
-            delta=5
-        )
 
     def check_for_row_in_list_table(self, row_text):
         table = self.browser.find_element_by_id('id_list_table')
@@ -73,9 +61,4 @@ class NewVisitorTest(StaticLiveServerTestCase):
         page_text = self.browser.find_element_by_tag_name('body').text
         self.assertNotIn('Buy peacock feathers', page_text)
         self.assertIn('Buy milk', page_text)
-        self.assertEqual(response.status_code, 302)
-        self.assertEqual(response['location'], '/lists/the-only-list-in-the-world/')
-
-
-
         self.fail('Finish the test!')
