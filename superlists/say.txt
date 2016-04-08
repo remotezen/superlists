@@ -1,0 +1,3 @@
+The say command can be useful in place of console logging or alert sounds in scripts. For instance, you can set up an Automator or Hazel script to do batch file processing and then announce the task’s completion with say.
+
+But the most enjoyable use for say is rather more sinister: if you have ssh access to a friend or coworker’s Mac, you can silently log into their machine and haunt them through the command line. Give ‘em a Siri-ous surprise.
