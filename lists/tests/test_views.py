@@ -6,6 +6,7 @@ from django.template.loader import render_to_string
 from unittest import skip
 from lists.views import home_page
 from lists.models import Item, List
+from lists.forms import ItemForm
 
 # First test no even a url in home_page = None
 
@@ -87,6 +88,14 @@ class ListViewTest(TestCase):
 
 
 class HomePageTest(TestCase):
+    
+    def test_home_page_renders_home_template(self):
+        response = self.client.get('/')
+        self.assertTemplateUsed(response, 'home.html')
+
+    def test_home_page_uses_item_form(self):
+        response = self.client.get('/')
+        self.assertIsInstance(response.context['form'], ItemForm)
 
     def test_home_page_only_saves_items_when_necessary(self):
         request = HttpRequest()
@@ -101,10 +110,7 @@ class HomePageTest(TestCase):
         request = HttpRequest()
         response = home_page(request)
         expected_html = render_to_string('home.html')
-        self.assertEqual(response.content.decode(), expected_html)
-        self.assertTrue(response.content.startswith(b'<html>'))
-        self.assertIn(b'<title>To-Do lists</title>', response.content)
-        self.assertTrue(response.content.strip().endswith(b'</html>'))
+        self.assertMultiLineEqual(response.content.decode(), expected_html) 
 
 
 class ListAndItemModels(TestCase):
